@@ -1,5 +1,7 @@
 <?php
 session_start();
+include("conexion.php");
+include("validaciones.php");
 ?>
 
 <!DOCTYPE html>
@@ -103,7 +105,10 @@ session_start();
         <p>¿Ya tienes cuenta? <a href="Cuenta.php">Inicia sesión</a></p>
     </div>
     <?php
-    include('conexion.php');
+
+    if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+        return;
+    }
 
     $nom       = trim($_POST['nom'] ?? '');
     $apellidos = trim($_POST['apellidos'] ?? '');
@@ -115,61 +120,38 @@ session_start();
     $esTrabajador = isset($_POST['es_trabajador']);
 
     /* ===============================
-   VALIDACIÓN CAMPOS VACÍOS
+   CAMPOS OBLIGATORIOS
    =============================== */
     if ($nom === '' || $apellidos === '' || $dni === '' || $correo === '' || $password === '') {
         $_SESSION['error'] = "Rellena todos los campos obligatorios";
+        header('Location: Registro.php');
         exit;
     }
 
     /* ===============================
-   EXPRESIONES REGULARES
+   VALIDACIONES CENTRALIZADAS
    =============================== */
-
-    $regexNombre = '/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+$/u';
-    $regexApellidos = '/^[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(\s[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$/u';
-    $regexDNI = '/^[0-9]{8}[A-Z]$/';
-    $regexTel = '/^[0-9]{9}$/';
-    $regexCorreo = '/^[^\s@]+@[^\s@]+\.[^\s@]+$/';
-    $regexPass = '/^(?=.*[A-Z])(?=.*\d).{8,}$/';
-
-    /* ===============================
-   VALIDACIONES
-   =============================== */
-
-    if (!preg_match($regexNombre, $nom)) {
-        $_SESSION['error'] = "El nombre debe empezar en mayúscula y el resto en minúscula";
-        header('Location: registro.php');
-        exit;
+    if (!validarNombre($nom)) {
+        $_SESSION['error'] = "Nombre no válido";
     }
-
-    if (!preg_match($regexApellidos, $apellidos)) {
-        $_SESSION['error'] = "Los apellidos deben empezar en mayúscula y el resto en minúscula";
-        header('Location: registro.php');
-        exit;
+    if (!validarApellidos($apellidos)) {
+        $_SESSION['error'] = "Apellidos no válidos";
     }
-
-    if (!preg_match($regexDNI, $dni)) {
-        $_SESSION['error'] = "DNI no válido (formato 12345678A)";
-        header('Location: registro.php');
-        exit;
+    if (!validarDNI($dni)) {
+        $_SESSION['error'] = "DNI no válido";
     }
-
-    if (!preg_match($regexTel, $tel)) {
+    if ($tel !== '' && !validarTelefono($tel)) {
         $_SESSION['error'] = "Teléfono no válido";
-        header('Location: registro.php');
-        exit;
+    }
+    if (!validarCorreo($correo)) {
+        $_SESSION['error'] = "Correo no válido";
+    }
+    if (!validarPassword($password)) {
+        $_SESSION['error'] = "Contraseña insegura";
     }
 
-    if (!preg_match($regexCorreo, $correo)) {
-        $_SESSION['error'] = "Correo electrónico no válido";
-        header('Location: registro.php');
-        exit;
-    }
-
-    if (!preg_match($regexPass, $password)) {
-        $_SESSION['error'] = "La contraseña debe tener al menos 8 caracteres, una letra y un número";
-        header('Location: registro.php');
+    if (isset($_SESSION['error'])) {
+        header('Location: Registro.php');
         exit;
     }
 

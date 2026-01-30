@@ -122,24 +122,24 @@ INSERT INTO provincias (nombre, id_comunidad) VALUES
 
 -- Clientes (contraseñas MD5)
 INSERT INTO Clientes (nom, apellidos, DNI, tel, correo, contraseña) VALUES
-('Juan', 'Pérez Gómez', '12345678A', '600111222', 'juan@gmail.com', MD5('juan123')),
-('María', 'López Ruiz', '23456789B', '600333444', 'maria@gmail.com', MD5('maria123')),
-('Carlos', 'Sánchez Díaz', '34567890C', '600555666', 'carlos@gmail.com', MD5('carlos123')),
-('Ana', 'García López', '45678912F', '600777888', 'ana@gmail.com', MD5('ana123')),
-('Luis', 'Fernández Martín', '56789123G', '600999111', 'luis@gmail.com', MD5('luis123')),
-('Elena', 'Ruiz Morales', '67891234H', '601222333', 'elena@gmail.com', MD5('elena123')),
-('Javier', 'Ortega Sánchez', '78912345J', '601444555', 'javier@gmail.com', MD5('javier123')),
-('Marta', 'Navarro Gil', '89123456K', '601666777', 'marta@gmail.com', MD5('marta123'));
+('Juan', 'Pérez Gómez', '12345678A', '600111222', 'juan@gmail.com', MD5('Juan123')),
+('María', 'López Ruiz', '23456789B', '600333444', 'maria@gmail.com', MD5('Maria123')),
+('Carlos', 'Sánchez Díaz', '34567890C', '600555666', 'carlos@gmail.com', MD5('Carlos123')),
+('Ana', 'García López', '45678912F', '600777888', 'ana@gmail.com', MD5('Ana123')),
+('Luis', 'Fernández Martín', '56789123G', '600999111', 'luis@gmail.com', MD5('Luis123')),
+('Elena', 'Ruiz Morales', '67891234H', '601222333', 'elena@gmail.com', MD5('Elena123')),
+('Javier', 'Ortega Sánchez', '78912345J', '601444555', 'javier@gmail.com', MD5('Javier123')),
+('Marta', 'Navarro Gil', '89123456K', '601666777', 'marta@gmail.com', MD5('Mrta123'));
 
 -- Trabajadores
 INSERT INTO Trabajadores (nom, apellidos, DNI, tel, correo, contraseña) VALUES
-('Laura', 'Martín Torres', '45678901D', '611111111', 'laura@empresa.com', MD5('laura123')),
-('Pedro', 'Gómez Navarro', '56789012E', '622222222', 'pedro@empresa.com', MD5('pedro123')),
-('Ana', 'García López', '45678912F', '600777888', 'ana@gmail.com', MD5('ana123')),
-('Luis', 'Fernández Martín', '56789123G', '600999111', 'luis@gmail.com', MD5('luis123')),
-('Elena', 'Ruiz Morales', '67891234H', '601222333', 'elena@gmail.com', MD5('elena123')),
-('Javier', 'Ortega Sánchez', '78912345J', '601444555', 'javier@gmail.com', MD5('javier123')),
-('Marta', 'Navarro Gil', '89123456K', '601666777', 'marta@gmail.com', MD5('marta123'));
+('Admin', 'Admin', '45678901D', '611111111', 'admin@empresa.com', MD5('Admin123')),
+('Pedro', 'Gómez Navarro', '56789012E', '622222222', 'pedro@empresa.com', MD5('Pedro123')),
+('Ana', 'García López', '45678912F', '600777888', 'ana@gmail.com', MD5('Ana123')),
+('Luis', 'Fernández Martín', '56789123G', '600999111', 'luis@gmail.com', MD5('Luis123')),
+('Elena', 'Ruiz Morales', '67891234H', '601222333', 'elena@gmail.com', MD5('Elena123')),
+('Javier', 'Ortega Sánchez', '78912345J', '601444555', 'javier@gmail.com', MD5('Javier123')),
+('Marta', 'Navarro Gil', '89123456K', '601666777', 'marta@gmail.com', MD5('Mrta123'));
 
 -- Inmuebles
 INSERT INTO Inmuebles (m2, direccion, precio, id_cliente, id_provincia, id_tipo) VALUES

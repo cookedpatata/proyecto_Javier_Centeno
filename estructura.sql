@@ -38,9 +38,7 @@ CREATE TABLE IF NOT EXISTS provincias (
     id_provincia INT AUTO_INCREMENT PRIMARY KEY,
     nombre VARCHAR(100) NOT NULL,
     id_comunidad INT NOT NULL,
-    FOREIGN KEY (id_comunidad) 
-        REFERENCES comunidades(id_comunidad)
-        ON DELETE CASCADE
+    FOREIGN KEY (id_comunidad) REFERENCES comunidades(id_comunidad) ON DELETE CASCADE
 )
 ENGINE=INNODB;
 
@@ -71,7 +69,7 @@ CREATE TABLE IF NOT EXISTS Inmuebles (
 
     FOREIGN KEY (id_tipo) REFERENCES tipos_inmuebles(id_tipo) ON DELETE CASCADE,
     FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente) ON DELETE CASCADE,
-    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia)
+    FOREIGN KEY (id_provincia) REFERENCES provincias(id_provincia) ON DELETE CASCADE
 )
 ENGINE=INNODB;
 
@@ -82,7 +80,7 @@ CREATE TABLE IF NOT EXISTS Anuncios (
     id_cliente INT,
     id_inmueble INT,
     FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente) ON DELETE CASCADE,
-    FOREIGN KEY (id_inmueble) REFERENCES Inmuebles(id_inmueble)
+    FOREIGN KEY (id_inmueble) REFERENCES Inmuebles(id_inmueble) ON DELETE CASCADE
 )
 ENGINE =INNODB
 ;
@@ -92,8 +90,8 @@ CREATE TABLE if not exists Contratos (
     id_inmueble INT,
     fecha DATE NOT NULL,
     id_trabajador INT,
-    FOREIGN KEY (id_inmueble) REFERENCES inmuebles(id_inmueble),
-    FOREIGN KEY (id_trabajador) REFERENCES Trabajadores(id_trabajador)
+    FOREIGN KEY (id_inmueble) REFERENCES inmuebles(id_inmueble) ON DELETE CASCADE,
+    FOREIGN KEY (id_trabajador) REFERENCES Trabajadores(id_trabajador) ON DELETE CASCADE
 )
 ENGINE =INNODB
 ;
@@ -103,9 +101,9 @@ CREATE TABLE if not exists Contratos_Clientes (
     id_cliente INT,
     id_vendedor INT,
     PRIMARY KEY (id_contrato),
-    FOREIGN KEY (id_contrato) REFERENCES Contratos(id_contrato),
-    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente),
-    FOREIGN KEY (id_vendedor) REFERENCES Clientes(id_cliente)
+    FOREIGN KEY (id_contrato) REFERENCES Contratos(id_contrato) ON DELETE CASCADE,
+    FOREIGN KEY (id_cliente) REFERENCES Clientes(id_cliente) ON DELETE CASCADE,
+    FOREIGN KEY (id_vendedor) REFERENCES Clientes(id_cliente) ON DELETE CASCADE
 )
 ENGINE =INNODB
 ;
@@ -113,8 +111,8 @@ ENGINE =INNODB
 CREATE TABLE if not exists Imagenes_Inmuebles (
     id_imagen INT,
     id_inmueble INT,
-    FOREIGN KEY (id_imagen) REFERENCES imagenes(id_imagen),
-    FOREIGN KEY (id_inmueble) REFERENCES Inmuebles(id_inmueble)
+    FOREIGN KEY (id_imagen) REFERENCES imagenes(id_imagen) ON DELETE CASCADE,
+    FOREIGN KEY (id_inmueble) REFERENCES Inmuebles(id_inmueble) ON DELETE CASCADE
 )
 ENGINE =INNODB
 ;

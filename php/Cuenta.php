@@ -1,35 +1,33 @@
 <?php
 include("conexion.php");
+include("validaciones.php");
 session_start();
 
 /* ===============================
-   PROCESAR LOGIN (SI HAY POST)
+   PROCESAR LOGIN
    =============================== */
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
-  $correo   = trim($_POST['correo'] ?? '');
-  $password = trim($_POST['password'] ?? '');
+    $correo   = trim($_POST['correo'] ?? '');
+    $password = trim($_POST['password'] ?? '');
 
-  if ($correo === '' || $password === '') {
-    $_SESSION['error'] = "Rellena todos los campos";
-    header('Location: Cuenta.php');
-    exit;
-  }
+    if ($correo === '' || $password === '') {
+        $_SESSION['error'] = "Rellena todos los campos";
+        header('Location: Cuenta.php');
+        exit;
+    }
 
-  $regexCorreo = '/^[^\s@]+@[^\s@]+\.[^\s@]+$/';
-  $regexPass   = '/^(?=.*[A-Z])(?=.*\d).{8,}$/';
+    if (!validarCorreo($correo)) {
+        $_SESSION['error'] = "Correo no válido";
+        header('Location: Cuenta.php');
+        exit;
+    }
 
-  if (!preg_match($regexCorreo, $correo)) {
-    $_SESSION['error'] = "Correo no válido";
-    header('Location: Cuenta.php');
-    exit;
-  }
-
-  if (!preg_match($regexPass, $password)) {
-    $_SESSION['error'] = "Contraseña inválida";
-    header('Location: Cuenta.php');
-    exit;
-  }
+    if (!validarPassword($password)) {
+        $_SESSION['error'] = "Contraseña inválida";
+        header('Location: Cuenta.php');
+        exit;
+    }
 
   $passwordMD5 = md5($password);
 
@@ -57,10 +55,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   );
 
   if (count($trabajadores) > 0) {
-    $_SESSION['usuario_id'] = $trabajadores[0]['id_trabajador'];
+
+    $id_trabajador = $trabajadores[0]['id_trabajador'];
+
+    $_SESSION['usuario_id'] = $id_trabajador;
     $_SESSION['rol'] = 'trabajador';
-    header('Location: trabajador.php');
-    exit;
+
+    // 🔐 SI ES ADMIN (id = 1)
+    if ($id_trabajador == 1) {
+      $_SESSION['rol'] = 'admin';
+      header('Location: admin.php');
+      exit;
+    } else {
+      header('Location: trabajador.php');
+      exit;
+    }
   }
 
   $_SESSION['error'] = "Credenciales incorrectas";
@@ -89,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <div class="navigation">
       <a href="../php/index.php">Inicio</a>
       <a href="../php/NuestrosInmuebles.php">Nuestros inmuebles</a>
-      <a href="../php/Cuenta.php">Vende tus inmuebles</a>
+      <a href="../php/Cuenta.php">Cuenta</a>
 
     </div>
   </header>
@@ -126,6 +135,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         header('Location: cliente.php');
       elseif ($_SESSION['rol'] === 'trabajador'):
         header('Location: trabajador.php');
+      elseif ($_SESSION['rol'] === 'admin'):
+        header('Location: admin.php');
       endif;
 
     endif; ?>
